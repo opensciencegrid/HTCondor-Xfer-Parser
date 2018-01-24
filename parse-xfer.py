@@ -91,7 +91,7 @@ def process(dates):
     if not es.indices.exists(day_before_index):
         es.indices.create(index=day_before_index, body=mapping)
     
-    split_re = re.compile("^([\d\s\(\)\.\/\:]+) (.*)$")
+    split_re = re.compile("^([\d\s\(\)\.\/\:]+)\s*(?:\(D_STATS\))? (.*)$")
     peer_stats_re = re.compile("^\(peer stats.*\):\s(.*)$")
     timestamp_re = re.compile("^([\d\:\/\s]+)\s\(")
     upload_re = re.compile("^(File Transfer Upload):\s(.*)")
