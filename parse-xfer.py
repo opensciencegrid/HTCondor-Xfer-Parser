@@ -2,7 +2,7 @@
 
 import elasticsearch
 import elasticsearch.helpers
-from elasticsearch_dsl import Search
+from elasticsearch_dsl import Search, Q
 import certifi
 import re
 import datetime
@@ -91,9 +91,9 @@ def process(dates):
     if not es.indices.exists(day_before_index):
         es.indices.create(index=day_before_index, body=mapping)
     
-    split_re = re.compile("^([\d\s\(\)\.\/\:]+)\s*(?:\(D_STATS\))? (.*)$")
-    peer_stats_re = re.compile("^\(peer stats.*\):\s(.*)$")
-    timestamp_re = re.compile("^([\d\:\/\s]+)\s\(")
+    split_re = re.compile("^([\d\s\.\/\:]+)\s*(?:\(D_STATS\))? (.*)$")
+    peer_stats_re = re.compile("\(peer stats.*\):\s(.*)$")
+    timestamp_re = re.compile("^([\d\:\/\s]+)\s")
     upload_re = re.compile("^(File Transfer Upload):\s(.*)")
     key_value_re = re.compile("^[\w\s]+: (.*)")
     split_key_values_re = re.compile("(\w+):\s([\d\.]+)")
@@ -113,22 +113,31 @@ def process(dates):
         #print result_hit
         #print result
         
+        # Split the time stamp from the rest
         matches = split_re.search(result)
         if not matches:
             continue
             
-        
+        # Search for the peer stats
         peer_stats = peer_stats_re.search(matches.group(2))
         
         stats = matches.group(2)
         
+        # Grab everything after the first ":", but account for the
+        # peer stats as well
         if peer_stats:
             stats = peer_stats.group(1)
+        else:
+            stats = matches.group(2)[matches.group(2).find(":")+2:]
         
         
         timestamp_match = timestamp_re.search(matches.group(1))
         if not timestamp_match:
+            #print "Timestamp didn't match"
+            #print matches.group(1)
             continue
+        #else:
+        #    print matches.group(1)
         timestamp = timestamp_match.group(1)
         
         parsed_date = dateutil.parser.parse(timestamp)
@@ -140,6 +149,7 @@ def process(dates):
         key_values = key_value_re.search(stats)
         
         if not key_values:
+            #print "Key values didn't work: %s" % (stats)
             continue
         
         key_value = split_key_values_re.findall(key_values.group(1))
