@@ -36,8 +36,8 @@ def main():
     dates = []
     
     if args.onehour:
-        from_date = datetime.datetime.now() - datetime.timedelta(hours=1)
-        to_date = datetime.datetime.now()
+        from_date = datetime.datetime.utcnow() - datetime.timedelta(hours=1)
+        to_date = datetime.datetime.utcnow()
         
         cur_date = from_date
         while cur_date < to_date:
