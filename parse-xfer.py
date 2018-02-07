@@ -109,7 +109,7 @@ def process(dates):
 
     split_re = re.compile("^([\d\s\.\/\:]+)\s*(?:\(D_STATS\))? (.*)$")
     peer_stats_re = re.compile("\(peer stats.*\):\s(.*)$")
-    timestamp_re = re.compile("^([\d\:\/\s]+)\s")
+    timestamp_re = re.compile("^([\d\:\/\s]+)")
     upload_re = re.compile("^(File Transfer Upload):\s(.*)")
     key_value_re = re.compile("^[\w\s]+: (.*)")
     split_key_values_re = re.compile("(\w+):\s([\d\.]+)")
