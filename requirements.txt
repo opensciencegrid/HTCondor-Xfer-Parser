@@ -6,4 +6,4 @@ python-dateutil==2.6.1
 python-geoip==1.2
 python-geoip-geolite2==2015.303
 six==1.11.0
-urllib3==1.22
+urllib3>=1.23
