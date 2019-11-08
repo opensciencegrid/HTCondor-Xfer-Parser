@@ -129,7 +129,10 @@ def process(dates):
         m = hashlib.sha256()
         m.update(result_hit['message'])
         m.update(result_hit['host'])
-        m.update(str(result_hit['offset']))
+        if "offset" in result_hit:
+            m.update(str(result_hit['offset']))
+        elif "offset" in result_hit['log']:
+            m.update(str(result_hit['log']['offset']))
         to_upload['_id'] = m.hexdigest()
 
         #print result_hit
