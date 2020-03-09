@@ -1,0 +1,32 @@
+version: '2'
+services:
+
+
+
+    logstash-htcondor-receiver:
+        image: docker.elastic.co/logstash/logstash:7.6.0
+        volumes:
+        - ./htcondor-receiver.logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+        - /etc/grid-security/hostcert.pem:/etc/gracc.opensciencegrid.org-cert.pem
+        - /etc/grid-security/hostkey.pk8:/etc/gracc.opensciencegrid.org-key-pkcs8.key
+        - /etc/grid-security/certificates/InCommon-IGTF-Server-CA.pem:/etc/InCommon-IGTF-Server-CA.pem
+        - /etc/grid-security/certificates/letsencryptauthorityx3.pem:/etc/letsencryptauthorityx3.pem
+        - /etc/grid-security/certificates/letsencryptauthorityx4.pem:/etc/letsencryptauthorityx4.pem
+        environment:
+        - XPACK_MONITORING_ENABLED=false
+        network_mode: host
+        restart: always
+        ports:
+        - 6938
+        env_file: .env
+
+    logstash-htcondor-ingest:
+        image: docker.elastic.co/logstash/logstash:7.6.0
+        volumes:
+        - ./htcondor-ingest.logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+        environment:
+        - XPACK_MONITORING_ENABLED=false
+        network_mode: host
+        restart: always
+        env_file: .env
+

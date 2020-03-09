@@ -1,9 +1,0 @@
-certifi==2017.11.5
-elasticsearch==6.0.0
-elasticsearch-dsl==6.0.1
-ipaddress==1.0.19
-python-dateutil==2.6.1
-python-geoip==1.2
-python-geoip-geolite2==2015.303
-six==1.11.0
-urllib3>=1.23
