@@ -24,6 +24,7 @@ services:
         image: docker.elastic.co/logstash/logstash:7.6.0
         volumes:
         - ./htcondor-ingest.logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+        - ./xfer-mapping.json:/etc/xfer-mapping.json
         environment:
         - XPACK_MONITORING_ENABLED=false
         network_mode: host
