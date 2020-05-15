@@ -1,0 +1,15 @@
+# /etc/systemd/system/htcondor-mail.timer
+[Unit]
+Description=Run HTCondor Transfer Mail every Monday
+Requires=docker.service
+
+[Timer]
+# Explicitly declare service that this timer is responsible for
+Unit=htcondor-mail.service
+
+[Timer]
+OnCalendar=Mon 06:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

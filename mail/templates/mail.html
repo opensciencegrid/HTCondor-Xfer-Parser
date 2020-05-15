@@ -1,0 +1,167 @@
+<html>
+<head>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <style>
+    .row {
+      margin-bottom: 2em;
+    }
+    .navbar {
+      margin-bottom: 2em;
+    }
+    .transferred {
+      color:white;
+      text-align: center;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .transferBorder {
+      border-style: solid;
+      border-width: 1px 0px 1px 1px;
+      border-color: #dee2e6;
+      padding-right: 0px;
+    }
+    .container {
+      width: 600px;
+    }
+
+    .noPadding {
+      padding: 0px;
+    }
+
+    th {
+      text-align: left;
+    }
+
+
+    
+  </style>
+</head>
+<body>
+  <!-- navbar-dark bg-primary -->
+  <nav class="navbar ">
+    <div class="container">
+      <span class="navbar-brand h1 mx-auto">HTCondor Submit Host Transfers</span>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm transferBorder">
+        <h1>Bytes Transferred</h1>
+      </div>
+      <div class="col-sm bg-primary">
+          <h1 class="transferred">{{ total_transferred }}</h1>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg noPadding">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">
+                Submit Host
+              </th>
+              <th class="text-right">
+                Bytes Transferred
+              </th>
+              <th class="text-right">
+                Last Week Bytes
+              </th>
+              <th class="text-right">
+                Delta from last week
+              </th>
+            </tr>
+          </thead>
+            {% for host, values in hosts.items() %}
+            <tr>
+              <td>
+                {{ host }}
+              </td>
+              <td class="text-right">
+                {{ values.bytes_str }}
+              </td>
+              <td class="text-right">
+                {{ values.last_week_bytes_str }}
+              </td>
+              <td class="text-right">
+                {{ values.delta }}%
+              </td>
+            </tr>
+            {% endfor %}
+      
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg noPadding">
+        <h2>Missing hosts this week</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg noPadding">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">
+                Missing Host
+              </th>
+              <th scope="col">
+                Last Seen
+              </th>
+            </tr>
+          </thead>
+            {% for host, values in last_reported.items() %}
+            <tr>
+              <td>
+                {{ host }}
+              </td>
+              <td>
+                {{ values.max_time_str }}
+              </td>
+            </tr>
+            {% endfor %}
+      
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg noPadding">
+        <h2>TCP Packets Lost</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg noPadding">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">
+                Host
+              </th>
+              <th scope="col">
+                Average Lost
+              </th>
+            </tr>
+          </thead>
+          {% for host, values in hosts.items() %}
+            <tr>
+              <td>
+                {{ host }}
+              </td>
+              <td>
+                {{ values.loss }}
+              </td>
+            </tr>
+            {% endfor %}
+      
+        </table>
+      </div>
+    </div>
+  </div>
+
+  
+
+</body>
+</html>
