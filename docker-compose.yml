@@ -4,7 +4,7 @@ services:
 
 
     logstash-htcondor-receiver:
-        image: docker.elastic.co/logstash/logstash:7.6.0
+        image: docker.elastic.co/logstash/logstash:7.16.1
         volumes:
         - ./htcondor-receiver.logstash.conf:/usr/share/logstash/pipeline/logstash.conf
         - /etc/grid-security/gracc.opensciencegrid.org-cert.pem:/etc/gracc.opensciencegrid.org-cert.pem
@@ -21,7 +21,7 @@ services:
         env_file: .env
 
     logstash-htcondor-ingest:
-        image: docker.elastic.co/logstash/logstash:7.6.0
+        image: docker.elastic.co/logstash/logstash:7.16.1
         volumes:
         - ./htcondor-ingest.logstash.conf:/usr/share/logstash/pipeline/logstash.conf
         - ./xfer-mapping.json:/etc/xfer-mapping.json
