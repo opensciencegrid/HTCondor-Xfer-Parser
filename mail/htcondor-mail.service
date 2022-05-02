@@ -4,4 +4,4 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/docker run --net=host --rm --name htcondor-mail opensciencegrid/htcondor-transfer-mail:latest dweitzel@unl.edu jthiltges@unl.edu smckee@umich.edu bbockelman@morgridge.org
+ExecStart=/bin/docker run --net=host --rm --name htcondor-mail hub.opensciencegrid.org/opensciencegrid/htcondor-transfer-mail:latest dweitzel@unl.edu jthiltges@unl.edu smckee@umich.edu bbockelman@morgridge.org
